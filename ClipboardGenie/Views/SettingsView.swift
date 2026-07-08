@@ -5,6 +5,7 @@ struct SettingsView: View {
     @AppStorage("autoAppearOnCopy") private var autoAppearOnCopy = false
     @State private var apiKeyField = ""
     @State private var keyIsSaved = false
+    @State private var saveErrorMessage: String?
 
     private let keychain = KeychainStore()
     private let account = "anthropic-api-key"
@@ -35,6 +36,11 @@ struct SettingsView: View {
                 Text("Stored securely in your macOS Keychain.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+                if let saveErrorMessage {
+                    Text(saveErrorMessage)
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
             }
 
             Section("Behavior") {
@@ -53,8 +59,14 @@ struct SettingsView: View {
     private func saveKey() {
         let key = apiKeyField.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !key.isEmpty else { return }
-        try? keychain.save(key, account: account)
-        keyIsSaved = true
-        apiKeyField = ""
+        do {
+            try keychain.save(key, account: account)
+            keyIsSaved = keychain.read(account: account) != nil
+            saveErrorMessage = keyIsSaved ? nil : "The key could not be verified after saving."
+            if keyIsSaved { apiKeyField = "" }
+        } catch {
+            keyIsSaved = false
+            saveErrorMessage = "Couldn't save to the Keychain: \(error.localizedDescription)"
+        }
     }
 }
