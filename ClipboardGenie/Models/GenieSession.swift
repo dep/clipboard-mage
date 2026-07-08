@@ -14,6 +14,7 @@ final class GenieSession: ObservableObject {
     private let engine: TransformEngine
     private let apiKeyProvider: () -> String?
     private var streamTask: Task<Void, Never>?
+    private var generation = 0
 
     init(engine: TransformEngine, apiKeyProvider: @escaping () -> String?) {
         self.engine = engine
@@ -45,6 +46,7 @@ final class GenieSession: ObservableObject {
         streamTask?.cancel()
         streamTask = nil
         isStreaming = false
+        generation += 1
     }
 
     private func runTransform(instruction: String) {
@@ -58,19 +60,25 @@ final class GenieSession: ObservableObject {
         isStreaming = true
         previewText = ""
 
+        let gen = generation
         streamTask = Task {
             do {
                 for try await delta in engine.transform(text: source, instruction: instruction, apiKey: apiKey) {
+                    guard gen == generation else { return }
                     previewText += delta
                 }
+                guard gen == generation else { return }
                 hasResult = true
                 self.instruction = ""
             } catch is CancellationError {
+                guard gen == generation else { return }
                 previewText = source
             } catch {
+                guard gen == generation else { return }
                 previewText = source
                 errorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
             }
+            guard gen == generation else { return }
             isStreaming = false
         }
     }

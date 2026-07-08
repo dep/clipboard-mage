@@ -17,6 +17,14 @@ struct MockEngine: TransformEngine {
     }
 }
 
+/// Engine whose stream is driven manually by the test.
+final class ManualEngine: TransformEngine, @unchecked Sendable {
+    var continuation: AsyncThrowingStream<String, Error>.Continuation?
+    func transform(text: String, instruction: String, apiKey: String) -> AsyncThrowingStream<String, Error> {
+        AsyncThrowingStream { self.continuation = $0 }
+    }
+}
+
 @MainActor
 final class GenieSessionTests: XCTestCase {
 
@@ -123,6 +131,34 @@ final class GenieSessionTests: XCTestCase {
         session.submit()
 
         XCTAssertEqual(session.errorMessage, GenieError.missingAPIKey.errorDescription)
+        XCTAssertFalse(session.isStreaming)
+    }
+
+    func testStaleTransformCannotClobberStateAfterReBegin() async throws {
+        let engine = ManualEngine()
+        let session = GenieSession(engine: engine, apiKeyProvider: { "sk-test" })
+
+        session.begin(with: "old source")
+        session.instruction = "transform"
+        session.submit()
+        // Wait for the stream task to start and register its continuation.
+        for _ in 0..<200 where engine.continuation == nil {
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        let staleContinuation = try XCTUnwrap(engine.continuation)
+
+        // User closes and re-opens the panel with new clipboard content.
+        session.begin(with: "new source")
+        XCTAssertEqual(session.previewText, "new source")
+
+        // The orphaned stream now emits — none of it may touch the session.
+        staleContinuation.yield("STALE DELTA")
+        staleContinuation.finish(throwing: GenieError.http(status: 500, message: "stale boom"))
+        try await Task.sleep(for: .milliseconds(100))
+
+        XCTAssertEqual(session.previewText, "new source")
+        XCTAssertNil(session.errorMessage)
+        XCTAssertFalse(session.hasResult)
         XCTAssertFalse(session.isStreaming)
     }
 }
