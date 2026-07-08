@@ -1545,8 +1545,8 @@ In `ClipboardGenie/ClipboardGenieApp.swift`, add a menu item between "Open Genie
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>Clipboard Genie</title>
-    <link>https://raw.githubusercontent.com/dep/clipboard-genie/main/appcast.xml</link>
+    <title>Clipboard Mage</title>
+    <link>https://raw.githubusercontent.com/dep/clipboard-mage/main/appcast.xml</link>
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <!-- items go here, newest first -->
@@ -1580,22 +1580,22 @@ git commit -m "feat: Sparkle auto-update wiring with appcast"
 `.agents/commands/EXPORT-SIGNED-APP.md` — adapt the Synapse Meetings runbook (`/Users/dep/Sites/synapse-meetings/.agents/commands/EXPORT-SIGNED-APP.md`) with these substitutions, keeping the same 8-step structure (bump version → archive with Developer ID overrides → export → codesign verify → notarize + staple → create-dmg → sign_update → appcast + GitHub release):
 
 - Project: `ClipboardGenie.xcodeproj`, scheme `ClipboardGenie`, archive `build/ClipboardGenie.xcarchive`
-- App: `build/export/Clipboard Genie.app`
+- App: `build/export/Clipboard Mage.app` (PRODUCT_NAME is now "Clipboard Mage")
 - Identity/team unchanged: `Developer ID Application: Danny Peck (299R8V27FZ)` / `299R8V27FZ`
-- Notarize zip: `/tmp/ClipboardGenie-notarize.zip`; keychain profile `notarytool` (already stored — reuse; the one-time `store-credentials` step reads `source .env`)
-- DMG: `~/Desktop/ClipboardGenie-<version>.dmg`, volname `Clipboard Genie`
+- Notarize zip: `/tmp/ClipboardMage-notarize.zip`; keychain profile `notarytool` (already stored — reuse; the one-time `store-credentials` step reads `source .env`)
+- DMG: `~/Desktop/ClipboardMage-<version>.dmg`, volname `Clipboard Mage`
 - Entitlements path for any re-sign fallback: `ClipboardGenie/ClipboardGenie.entitlements`
-- Appcast enclosure URL: `https://github.com/dep/clipboard-genie/releases/download/<version>/ClipboardGenie-<version>.dmg`
-- `SUFeedURL` already set to `https://raw.githubusercontent.com/dep/clipboard-genie/main/appcast.xml`
+- Appcast enclosure URL: `https://github.com/dep/clipboard-mage/releases/download/<version>/ClipboardMage-<version>.dmg`
+- `SUFeedURL` already set to `https://raw.githubusercontent.com/dep/clipboard-mage/main/appcast.xml`
 - First-release checklist: verify `/tmp/sparkle-bin/bin/generate_keys -p` prints the same public key committed in `project.yml`
 
 - [ ] **Step 2: Write README.md**
 
 ```markdown
-# Clipboard Genie 🧞
+# Clipboard Mage 🧙
 
 A macOS menu bar app. Hit a hotkey (default **⌃⌥⌘C**), see your clipboard in a
-pretty floating panel, tell the genie how to transform it ("clean this up into
+pretty floating panel, tell the mage how to transform it ("clean this up into
 markdown"), watch the result stream in, press **Enter** to accept it into your
 clipboard — or keep iterating with more instructions.
 
@@ -1623,17 +1623,19 @@ open ClipboardGenie.xcodeproj
 Releases: see `.agents/commands/EXPORT-SIGNED-APP.md`.
 ```
 
-- [ ] **Step 3: Create the GitHub repo and push**
+- [ ] **Step 3: Push to the existing GitHub repo**
+
+The remote `origin` already exists and points to `https://github.com/dep/clipboard-mage.git` (created by a separate marketing-site session; the repo is public and its `main` may already contain marketing-site content). Do NOT create a new repo.
 
 ```bash
 cd /Users/dep/Sites/magic-clipboard
 git add README.md .agents
 git commit -m "docs: README and release runbook"
-gh repo create dep/clipboard-genie --private --source . --push
+git fetch origin
+git push -u origin feature/clipboard-genie-v0.1
 ```
 
-(`--private` unless the user says public — ask at execution time if unclear.)
-Expected: repo exists at https://github.com/dep/clipboard-genie with all commits pushed.
+Expected: the feature branch is on https://github.com/dep/clipboard-mage. Merging to `main` happens after the final whole-branch review (finishing-a-development-branch), reconciling with whatever the marketing-site session put on `origin/main` — merge, don't force-push.
 
 - [ ] **Step 4: Full manual QA pass**
 
