@@ -19,8 +19,7 @@ struct ClipboardGenieApp: App {
             }
         }
         Settings {
-            Text("Settings coming soon")
-                .padding(40)
+            SettingsView()
         }
     }
 }
