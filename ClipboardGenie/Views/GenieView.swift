@@ -96,6 +96,9 @@ struct GenieView: View {
             .focused($instructionFocused)
             .onSubmit { session.submit() }
             .disabled(session.isStreaming)
+            .onChange(of: session.isStreaming) { _, streaming in
+                if !streaming { instructionFocused = true }
+            }
             if session.isStreaming {
                 Button("Stop") { session.cancelStreaming() }
                     .controlSize(.small)
