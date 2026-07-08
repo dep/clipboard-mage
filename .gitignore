@@ -1,1 +1,10 @@
 .env
+.superpowers/
+build/
+*.xcodeproj
+DerivedData/
+.DS_Store
+xcuserdata/
+.build/
+*.dSYM
+*.dSYM.zip
