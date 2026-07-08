@@ -53,7 +53,32 @@ struct SettingsView: View {
         .formStyle(.grouped)
         .frame(width: 440)
         .fixedSize(horizontal: false, vertical: true)
-        .onAppear { keyIsSaved = keychain.read(account: account) != nil }
+        .background(SettingsWindowElevator())
+        .onAppear {
+            keyIsSaved = keychain.read(account: account) != nil
+            // LSUIElement apps don't activate when the Settings scene opens,
+            // so the window can appear behind the frontmost app.
+            DispatchQueue.main.async {
+                NSApp.activate(ignoringOtherApps: true)
+            }
+        }
+    }
+
+    /// Grabs the hosting NSWindow and brings it to the front — needed because
+    /// an LSUIElement app isn't activated when SwiftUI opens the Settings scene.
+    private struct SettingsWindowElevator: NSViewRepresentable {
+        func makeNSView(context: Context) -> NSView {
+            let view = NSView()
+            DispatchQueue.main.async {
+                guard let window = view.window else { return }
+                NSApp.activate(ignoringOtherApps: true)
+                window.makeKeyAndOrderFront(nil)
+                window.orderFrontRegardless()
+            }
+            return view
+        }
+
+        func updateNSView(_ nsView: NSView, context: Context) {}
     }
 
     private func saveKey() {

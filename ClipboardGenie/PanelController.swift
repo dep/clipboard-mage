@@ -52,6 +52,7 @@ final class PanelController: NSObject, NSWindowDelegate {
             newPanel.hasShadow = true
             newPanel.hidesOnDeactivate = false
             newPanel.isReleasedWhenClosed = false
+            newPanel.appearance = NSAppearance(named: .darkAqua) // arcane theme is always-dark
             newPanel.delegate = self
             panel = newPanel
         }
