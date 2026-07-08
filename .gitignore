@@ -1,1 +1,6 @@
 .env
+.superpowers/
+build/
+*.xcodeproj
+DerivedData/
+.DS_Store

@@ -1,0 +1,92 @@
+name: ClipboardGenie
+options:
+  bundleIdPrefix: com.clipboardgenie
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    ENABLE_HARDENED_RUNTIME: NO
+    DEAD_CODE_STRIPPING: YES
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGNING_REQUIRED: NO
+    CODE_SIGNING_ALLOWED: NO
+packages:
+  KeyboardShortcuts:
+    url: https://github.com/sindresorhus/KeyboardShortcuts
+    from: "2.0.0"
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: "2.6.4"
+schemes:
+  ClipboardGenie:
+    build:
+      targets:
+        ClipboardGenie: all
+        ClipboardGenieTests: [test]
+    test:
+      targets:
+        - ClipboardGenieTests
+
+targets:
+  ClipboardGenie:
+    type: application
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: ClipboardGenie
+    resources:
+      - path: ClipboardGenie/Resources
+        optional: true
+    info:
+      path: ClipboardGenie/Info.plist
+      properties:
+        CFBundleName: Clipboard Genie
+        CFBundleDisplayName: Clipboard Genie
+        CFBundleShortVersionString: "0.1.0"
+        CFBundleVersion: "1"
+        LSMinimumSystemVersion: "14.0"
+        LSUIElement: true
+        NSHumanReadableCopyright: "© 2026 Clipboard Genie"
+        SUFeedURL: "https://raw.githubusercontent.com/dep/clipboard-genie/main/appcast.xml"
+        SUPublicEDKey: "SPARKLE_PUBLIC_KEY_PLACEHOLDER"
+        SUEnableAutomaticChecks: true
+        SUScheduledCheckInterval: 86400
+    entitlements:
+      path: ClipboardGenie/ClipboardGenie.entitlements
+      properties:
+        com.apple.security.app-sandbox: false
+        com.apple.security.network.client: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.clipboardgenie.app
+        PRODUCT_NAME: "Clipboard Genie"
+        GENERATE_INFOPLIST_FILE: NO
+        COMBINE_HIDPI_IMAGES: YES
+        ENABLE_PREVIEWS: YES
+        ENABLE_TESTABILITY: YES
+    dependencies:
+      - package: KeyboardShortcuts
+        product: KeyboardShortcuts
+      - package: Sparkle
+        product: Sparkle
+
+  ClipboardGenieTests:
+    type: bundle.unit-test
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: ClipboardGenieTests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.clipboardgenie.tests
+        SWIFT_VERSION: "5.10"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Clipboard Genie.app/Contents/MacOS/Clipboard Genie"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+    dependencies:
+      - target: ClipboardGenie
+        embed: false
