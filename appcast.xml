@@ -6,5 +6,19 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <!-- items go here, newest first -->
+    <item>
+      <title>Version 0.1.0</title>
+      <pubDate>Wed, 08 Jul 2026 17:07:19 +0000</pubDate>
+      <sparkle:version>1</sparkle:version>
+      <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <description><![CDATA[<p>First release! Summon the mage with &#8963;&#8997;&#8984;C, describe your transformation, and press Return to accept the result into your clipboard.</p>]]></description>
+      <enclosure
+        url="https://github.com/dep/clipboard-mage/releases/download/0.1.0/ClipboardMage-0.1.0.dmg"
+        sparkle:edSignature="NpXsuu3MADrWEqcTr3bctun8Ux0OFE4kq/Scslaa1v70UDqjpVH8JoG2VayR52upjkCbs893Q/XmfQFfzmtzAg=="
+        length="1502927"
+        type="application/octet-stream" />
+    </item>
+
   </channel>
 </rss>
