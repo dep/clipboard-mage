@@ -161,4 +161,34 @@ final class GenieSessionTests: XCTestCase {
         XCTAssertFalse(session.hasResult)
         XCTAssertFalse(session.isStreaming)
     }
+
+    func testCancelMidStreamRestoresSourceText() async throws {
+        let engine = ManualEngine()
+        let session = GenieSession(engine: engine, apiKeyProvider: { "sk-test" })
+
+        session.begin(with: "precious source")
+        session.instruction = "transform"
+        session.submit()
+        for _ in 0..<200 where engine.continuation == nil {
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        let continuation = try XCTUnwrap(engine.continuation)
+
+        continuation.yield("partial out")
+        try await Task.sleep(for: .milliseconds(100))
+        XCTAssertEqual(session.previewText, "partial out")
+
+        session.cancelStreaming() // user pressed Stop
+
+        XCTAssertEqual(session.previewText, "precious source")
+        XCTAssertNil(session.errorMessage)
+        XCTAssertFalse(session.hasResult)
+        XCTAssertFalse(session.isStreaming)
+
+        // late garbage from the dead stream must still be ignored
+        continuation.yield("zombie")
+        continuation.finish()
+        try await Task.sleep(for: .milliseconds(100))
+        XCTAssertEqual(session.previewText, "precious source")
+    }
 }

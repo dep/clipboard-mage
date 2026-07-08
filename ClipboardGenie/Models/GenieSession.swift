@@ -15,6 +15,7 @@ final class GenieSession: ObservableObject {
     private let apiKeyProvider: () -> String?
     private var streamTask: Task<Void, Never>?
     private var generation = 0
+    private var inFlightSource: String?
 
     init(engine: TransformEngine, apiKeyProvider: @escaping () -> String?) {
         self.engine = engine
@@ -43,6 +44,10 @@ final class GenieSession: ObservableObject {
     }
 
     func cancelStreaming() {
+        if let source = inFlightSource {
+            previewText = source
+            inFlightSource = nil
+        }
         streamTask?.cancel()
         streamTask = nil
         isStreaming = false
@@ -56,6 +61,7 @@ final class GenieSession: ObservableObject {
         }
 
         let source = previewText
+        inFlightSource = source
         errorMessage = nil
         isStreaming = true
         previewText = ""
@@ -79,6 +85,7 @@ final class GenieSession: ObservableObject {
                 errorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
             }
             guard gen == generation else { return }
+            inFlightSource = nil
             isStreaming = false
         }
     }
