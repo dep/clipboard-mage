@@ -39,7 +39,7 @@ struct GenieView: View {
             if session.isStreaming && session.previewText.isEmpty {
                 HStack(spacing: 8) {
                     ProgressView().controlSize(.small)
-                    Text("The genie is thinking…").foregroundStyle(.secondary)
+                    Text("The mage is casting…").foregroundStyle(.secondary)
                 }
                 .padding(16)
             }

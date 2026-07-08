@@ -1,5 +1,5 @@
 import XCTest
-@testable import Clipboard_Genie
+@testable import Clipboard_Mage
 
 final class KeychainStoreTests: XCTestCase {
     // Unique service per run so tests never collide with the real app entry.

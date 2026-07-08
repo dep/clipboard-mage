@@ -45,14 +45,14 @@ targets:
     info:
       path: ClipboardGenie/Info.plist
       properties:
-        CFBundleName: Clipboard Genie
-        CFBundleDisplayName: Clipboard Genie
+        CFBundleName: Clipboard Mage
+        CFBundleDisplayName: Clipboard Mage
         CFBundleShortVersionString: "0.1.0"
         CFBundleVersion: "1"
         LSMinimumSystemVersion: "14.0"
         LSUIElement: true
-        NSHumanReadableCopyright: "© 2026 Clipboard Genie"
-        SUFeedURL: "https://raw.githubusercontent.com/dep/clipboard-genie/main/appcast.xml"
+        NSHumanReadableCopyright: "© 2026 Wandering Ghost LLC"
+        SUFeedURL: "https://raw.githubusercontent.com/dep/clipboard-mage/main/appcast.xml"
         SUPublicEDKey: "SPARKLE_PUBLIC_KEY_PLACEHOLDER"
         SUEnableAutomaticChecks: true
         SUScheduledCheckInterval: 86400
@@ -64,7 +64,7 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.clipboardgenie.app
-        PRODUCT_NAME: "Clipboard Genie"
+        PRODUCT_NAME: "Clipboard Mage"
         GENERATE_INFOPLIST_FILE: NO
         COMBINE_HIDPI_IMAGES: YES
         ENABLE_PREVIEWS: YES
@@ -85,7 +85,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.clipboardgenie.tests
         SWIFT_VERSION: "5.10"
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Clipboard Genie.app/Contents/MacOS/Clipboard Genie"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Clipboard Mage.app/Contents/MacOS/Clipboard Mage"
         BUNDLE_LOADER: "$(TEST_HOST)"
     dependencies:
       - target: ClipboardGenie

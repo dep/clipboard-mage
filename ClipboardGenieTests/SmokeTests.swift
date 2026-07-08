@@ -1,5 +1,5 @@
 import XCTest
-@testable import Clipboard_Genie
+@testable import Clipboard_Mage
 
 final class SmokeTests: XCTestCase {
     func testAppBundleLoads() {

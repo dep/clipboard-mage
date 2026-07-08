@@ -1,5 +1,5 @@
 import XCTest
-@testable import Clipboard_Genie
+@testable import Clipboard_Mage
 
 /// Engine stub that yields scripted deltas or throws.
 struct MockEngine: TransformEngine {

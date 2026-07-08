@@ -12,7 +12,7 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section("Shortcut") {
-                KeyboardShortcuts.Recorder("Summon the genie:", name: .toggleGenie)
+                KeyboardShortcuts.Recorder("Summon the mage:", name: .toggleGenie)
             }
 
             Section("Anthropic API Key") {
@@ -39,7 +39,7 @@ struct SettingsView: View {
 
             Section("Behavior") {
                 Toggle("Auto-appear when I copy text", isOn: $autoAppearOnCopy)
-                Text("Opens the genie every time you copy text. Press Esc to dismiss.")
+                Text("Opens the mage every time you copy text. Press Esc to dismiss.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

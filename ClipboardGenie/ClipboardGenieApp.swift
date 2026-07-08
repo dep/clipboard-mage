@@ -5,8 +5,8 @@ struct ClipboardGenieApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
-        MenuBarExtra("Clipboard Genie", systemImage: "wand.and.stars") {
-            Button("Open Genie") {
+        MenuBarExtra("Clipboard Mage", systemImage: "wand.and.stars") {
+            Button("Open Mage") {
                 appDelegate.showPanel()
             }
             Divider()
@@ -14,7 +14,7 @@ struct ClipboardGenieApp: App {
                 Text("Settings…")
             }
             Divider()
-            Button("Quit Clipboard Genie") {
+            Button("Quit Clipboard Mage") {
                 NSApp.terminate(nil)
             }
         }

@@ -1,6 +1,6 @@
 import XCTest
 import AppKit
-@testable import Clipboard_Genie
+@testable import Clipboard_Mage
 
 final class ClipboardServiceTests: XCTestCase {
     private var pasteboard: NSPasteboard!
