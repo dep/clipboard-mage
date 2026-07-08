@@ -9,6 +9,9 @@ struct ClipboardGenieApp: App {
             Button("Open Mage") {
                 appDelegate.showPanel()
             }
+            Button("Check for Updates…") {
+                appDelegate.updaterController.checkForUpdates(nil)
+            }
             Divider()
             SettingsLink {
                 Text("Settings…")

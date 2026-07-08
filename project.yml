@@ -53,7 +53,7 @@ targets:
         LSUIElement: true
         NSHumanReadableCopyright: "© 2026 Wandering Ghost LLC"
         SUFeedURL: "https://raw.githubusercontent.com/dep/clipboard-mage/main/appcast.xml"
-        SUPublicEDKey: "SPARKLE_PUBLIC_KEY_PLACEHOLDER"
+        SUPublicEDKey: "Tnoq0NNryfeGcjS0eQ2xfuOuvqf4dRoa3wF86ljVZh4="
         SUEnableAutomaticChecks: true
         SUScheduledCheckInterval: 86400
     entitlements:
