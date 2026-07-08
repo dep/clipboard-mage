@@ -12,7 +12,7 @@ The project uses XcodeGen + xcodebuild (not pure SPM), so Sparkle.framework is e
 
 - Developer ID Application certificate in login keychain
 - `notarytool` keychain profile (see Setup)
-- Sparkle EdDSA private key in keychain (already generated — public key is committed in `project.yml` as `SUPublicEDKey`)
+- Sparkle EdDSA private key in keychain (already generated — public key is edited in `project.yml` (source of truth) as `SUPublicEDKey`, regenerated into the tracked `ClipboardGenie/Info.plist` by `xcodegen generate`, and both are committed)
 - `create-dmg` installed: `brew install create-dmg`
 - `xcodegen` installed: `brew install xcodegen`
 - Sparkle tools in `/tmp/sparkle-bin/bin/` (see Setup)
@@ -41,12 +41,15 @@ tar -xf sparkle.tar.xz
 Edit `project.yml`:
 
 ```yaml
-properties:
-  CFBundleShortVersionString: "x.y.z"
-  CFBundleVersion: "N"   # increment
+targets:
+  ClipboardGenie:
+    info:
+      properties:
+        CFBundleShortVersionString: "x.y.z"
+        CFBundleVersion: "N"   # increment
 ```
 
-Then regenerate the Xcode project:
+Edit these two values under `targets.ClipboardGenie.info.properties`, then run `xcodegen generate` (this rewrites the tracked `ClipboardGenie/Info.plist`):
 
 ```bash
 xcodegen generate
@@ -186,7 +189,7 @@ Use `date -u "+%a, %d %b %Y %H:%M:%S +0000"` for `pubDate`.
 ### 8. Commit, push, release
 
 ```bash
-git add project.yml appcast.xml && \
+git add project.yml ClipboardGenie/Info.plist appcast.xml && \
 git commit -m "bump version to <version>" && \
 git push
 
@@ -213,7 +216,7 @@ For the very first release (no `appcast.xml` exists yet):
      </channel>
    </rss>
    ```
-2. Confirm the Sparkle public key in `project.yml` matches the private key in your keychain:
+2. Confirm the Sparkle public key edited in `project.yml` (and regenerated into the tracked `ClipboardGenie/Info.plist` by `xcodegen generate`) matches the private key in your keychain:
    ```bash
    /tmp/sparkle-bin/bin/generate_keys -p
    # should print: Tnoq0NNryfeGcjS0eQ2xfuOuvqf4dRoa3wF86ljVZh4=
