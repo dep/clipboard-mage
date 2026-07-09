@@ -5,7 +5,7 @@ struct ClipboardGenieApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
-        MenuBarExtra("Clipboard Mage", systemImage: "wand.and.stars") {
+        MenuBarExtra("Clipboard Mage", image: "MenuBarIcon") {
             Button("Open Mage") {
                 appDelegate.showPanel()
             }
