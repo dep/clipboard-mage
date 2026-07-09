@@ -47,8 +47,8 @@ targets:
       properties:
         CFBundleName: Clipboard Mage
         CFBundleDisplayName: Clipboard Mage
-        CFBundleShortVersionString: "0.1.0"
-        CFBundleVersion: "1"
+        CFBundleShortVersionString: "0.1.1"
+        CFBundleVersion: "2"
         LSMinimumSystemVersion: "14.0"
         LSUIElement: true
         NSHumanReadableCopyright: "© 2026 Wandering Ghost LLC"

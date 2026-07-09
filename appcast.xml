@@ -7,6 +7,20 @@
     <language>en</language>
     <!-- items go here, newest first -->
     <item>
+      <title>Version 0.1.1</title>
+      <pubDate>Thu, 09 Jul 2026 09:17:12 +0000</pubDate>
+      <sparkle:version>2</sparkle:version>
+      <sparkle:shortVersionString>0.1.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <description><![CDATA[<p>Clipboard Mage now has its crest: a proper app icon (violet clipboard, gold wand) that shows in Finder, Launchpad, and the DMG. Also includes the arcane panel restyle and a fix so the Settings window always comes to the front.</p>]]></description>
+      <enclosure
+        url="https://github.com/dep/clipboard-mage/releases/download/0.1.1/ClipboardMage-0.1.1.dmg"
+        sparkle:edSignature="G5qcHDn3ZhX9uIZqV8rCg/YyK4+Y/ugEsWZjXyBps6qCJMgiue3pS0OaImKSKUfWBgqR+ttHuDaEvvQetpojBQ=="
+        length="3678922"
+        type="application/octet-stream" />
+    </item>
+
+    <item>
       <title>Version 0.1.0</title>
       <pubDate>Wed, 08 Jul 2026 17:07:19 +0000</pubDate>
       <sparkle:version>1</sparkle:version>
