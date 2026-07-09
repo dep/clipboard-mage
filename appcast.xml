@@ -7,6 +7,20 @@
     <language>en</language>
     <!-- items go here, newest first -->
     <item>
+      <title>Version 0.1.2</title>
+      <pubDate>Thu, 09 Jul 2026 09:28:11 +0000</pubDate>
+      <sparkle:version>3</sparkle:version>
+      <sparkle:shortVersionString>0.1.2</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <description><![CDATA[<p>A prettier face in your menu bar: Clipboard Mage now uses its own wand-and-star mark instead of the generic system symbol. It adapts automatically to light and dark menu bars.</p>]]></description>
+      <enclosure
+        url="https://github.com/dep/clipboard-mage/releases/download/0.1.2/ClipboardMage-0.1.2.dmg"
+        sparkle:edSignature="vMT/IESYHXP2Gu+yKjk/V8MItNLtk+UFqtCzHq/qtq3YYZvorMopGa31n6VLLHn7Iwlhjxq9p2nKberI8oUrBw=="
+        length="3682041"
+        type="application/octet-stream" />
+    </item>
+
+    <item>
       <title>Version 0.1.1</title>
       <pubDate>Thu, 09 Jul 2026 09:17:12 +0000</pubDate>
       <sparkle:version>2</sparkle:version>
