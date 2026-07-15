@@ -7,7 +7,12 @@ final class GenieSession: ObservableObject {
     @Published var isStreaming: Bool = false
     @Published var hasResult: Bool = false
     @Published var errorMessage: String?
-    private(set) var hasClipboardText: Bool = false
+
+    /// The pane is the source of truth: anything typed, pasted, or pre-filled
+    /// from the clipboard counts as transformable text.
+    var hasClipboardText: Bool {
+        !previewText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
 
     var onAccept: ((String) -> Void)?
 
@@ -25,7 +30,6 @@ final class GenieSession: ObservableObject {
     func begin(with clipboardText: String?) {
         cancelStreaming()
         previewText = clipboardText ?? ""
-        hasClipboardText = clipboardText != nil
         instruction = ""
         hasResult = false
         errorMessage = nil

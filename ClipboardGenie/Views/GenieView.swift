@@ -90,16 +90,22 @@ struct GenieView: View {
     @ViewBuilder
     private var previewPane: some View {
         ZStack(alignment: .topLeading) {
-            ScrollView {
-                Text(session.previewText.isEmpty && !session.isStreaming
-                     ? placeholderText
-                     : session.previewText)
+            TextEditor(text: $session.previewText)
+                .font(.system(size: 13, design: .monospaced))
+                .lineSpacing(4)
+                .foregroundStyle(MageTheme.ink)
+                .tint(MageTheme.violet)
+                .scrollContentBackground(.hidden)
+                .scrollIndicators(.automatic)
+                .padding(13) // TextEditor has ~5pt intrinsic inset; total ≈ old 18pt padding
+                .disabled(session.isStreaming)
+            if session.previewText.isEmpty && !session.isStreaming {
+                Text(placeholderText)
                     .font(.system(size: 13, design: .monospaced))
                     .lineSpacing(4)
-                    .foregroundStyle(session.hasClipboardText ? MageTheme.ink : MageTheme.inkFaint)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundStyle(MageTheme.inkFaint)
                     .padding(18)
-                    .textSelection(.enabled)
+                    .allowsHitTesting(false)
             }
             if session.isStreaming && session.previewText.isEmpty {
                 HStack(spacing: 8) {
@@ -122,7 +128,7 @@ struct GenieView: View {
     }
 
     private var placeholderText: String {
-        session.hasClipboardText ? "" : "Nothing to transform — copy some text first."
+        "Copy some text, or type it here…"
     }
 
     private func errorBar(_ message: String) -> some View {

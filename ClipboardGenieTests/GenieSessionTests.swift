@@ -111,6 +111,65 @@ final class GenieSessionTests: XCTestCase {
         XCTAssertNil(accepted)
     }
 
+    func testTypingIntoEmptyPaneEnablesTransform() async {
+        var transformedInputs: [String] = []
+        var engine = MockEngine(deltas: ["result"])
+        engine.spy = { text, _ in transformedInputs.append(text) }
+
+        let session = makeSession(engine: engine)
+        session.begin(with: nil)
+        session.previewText = "typed by hand"
+        session.instruction = "go"
+        session.submit()
+        await waitForStreamingToEnd(session)
+
+        XCTAssertEqual(transformedInputs, ["typed by hand"])
+        XCTAssertEqual(session.previewText, "result")
+        XCTAssertTrue(session.hasResult)
+    }
+
+    func testHasClipboardTextTracksPaneContent() {
+        let session = makeSession()
+        session.begin(with: nil)
+        XCTAssertFalse(session.hasClipboardText)
+        session.previewText = "typed"
+        XCTAssertTrue(session.hasClipboardText)
+        session.previewText = ""
+        XCTAssertFalse(session.hasClipboardText)
+    }
+
+    // Regression guard for the editable pane: whatever the user leaves in the
+    // pane after hand-editing a result is exactly what accept hands back.
+    func testEditedResultIsAcceptedVerbatim() async {
+        let session = makeSession(engine: MockEngine(deltas: ["draft"]))
+        var accepted: String?
+        session.onAccept = { accepted = $0 }
+
+        session.begin(with: "source")
+        session.instruction = "go"
+        session.submit()
+        await waitForStreamingToEnd(session)
+
+        session.previewText = "draft, hand-polished"
+        session.instruction = ""
+        session.submit()
+        XCTAssertEqual(accepted, "draft, hand-polished")
+    }
+
+    func testWhitespaceOnlyPaneDoesNotTransform() {
+        var engineCalled = false
+        var engine = MockEngine(deltas: ["x"])
+        engine.spy = { _, _ in engineCalled = true }
+
+        let session = makeSession(engine: engine)
+        session.begin(with: "   \n  ")
+        session.instruction = "go"
+        session.submit()
+
+        XCTAssertFalse(engineCalled)
+        XCTAssertFalse(session.isStreaming)
+    }
+
     func testErrorRestoresPreviewAndSetsMessage() async {
         let engine = MockEngine(deltas: ["partial"], error: GenieError.http(status: 500, message: "boom"))
         let session = makeSession(engine: engine)
