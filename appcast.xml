@@ -7,6 +7,20 @@
     <language>en</language>
     <!-- items go here, newest first -->
     <item>
+      <title>Version 0.1.3</title>
+      <pubDate>Wed, 15 Jul 2026 10:41:20 +0000</pubDate>
+      <sparkle:version>4</sparkle:version>
+      <sparkle:shortVersionString>0.1.3</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <description><![CDATA[<p>The preview pane is now fully editable. Fix up your clipboard text before casting, hand-polish a result before accepting it — or type text straight into an empty panel, no copy required. The pane only locks while a transformation is streaming in.</p>]]></description>
+      <enclosure
+        url="https://github.com/dep/clipboard-mage/releases/download/0.1.3/ClipboardMage-0.1.3.dmg"
+        sparkle:edSignature="sirFpbPPfFvgm8U0aEqVgRBceWVdMxyhlVK/lR7PK7e79V60Vn0Fuv0ZKN6pOqaBUbsBz4QRgWdCEbsVlxnTDA=="
+        length="3683312"
+        type="application/octet-stream" />
+    </item>
+
+    <item>
       <title>Version 0.1.2</title>
       <pubDate>Thu, 09 Jul 2026 09:28:11 +0000</pubDate>
       <sparkle:version>3</sparkle:version>
